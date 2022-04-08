@@ -1,0 +1,11 @@
+﻿@model IEnumerable<UsersManager.Models.Photo>
+
+<div class="photosContainerGrid">
+    @foreach (var photo in Model)
+    {
+        <div class="photoContainer">
+            @Helper.AvatarUser(photo.User)
+            @Helper.Photo(photo)
+        </div>
+    }
+</div>

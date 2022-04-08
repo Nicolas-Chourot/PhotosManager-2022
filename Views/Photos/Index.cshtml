@@ -1,0 +1,51 @@
+﻿@{ ViewBag.Title = "Index"; }
+
+<h2>Répertoire de photos</h2>
+<div style="display:grid; grid-template-columns: 30px 160px 60px 30px 30px 30px">
+    @Helper.GlyphiconAction("Create", "glyphicon-plus", "Ajout de photo")
+    <input id="searchByKeywords" type="search" style="width:150px; height:22px" class="form-control" placeholder="Recherche..." />
+    <span id="doSearch" fieldToSort="dates" class="sortRatings glyphicon glyphiconStyle glyphicon-search pointer" title="Trier par dates d'évaluation" style=""></span>
+    <span id="sortDates" fieldToSort="dates" class="sortPhotos glyphicon glyphiconStyle glyphicon-calendar pointer" title="Trier par dates d'évaluation" style=""></span>
+    <span id="sortUsers" fieldToSort="users" class="sortPhotos glyphicon glyphiconStyle glyphicon-user pointer" title="Trier par dates d'évaluation" style=""></span>
+    <span id="sortRatings" fieldToSort="ratings" class="sortPhotos glyphicon glyphiconStyle glyphicon-star pointer" title="Trier par dates d'évaluation" style=""></span>
+</div>
+<hr />
+
+<div id="photosContainer" class="photosContainer">
+    <!-- Periodically refreshed -->
+</div>
+<br />
+<br />
+
+@section Scripts {
+    @Scripts.Render("~/bundles/ratings")
+    @Scripts.Render("~/bundles/partialRefresh")
+
+    <script defer>
+        ForceRefresh();
+        function ForceRefresh() {
+            let url = "@Url.Action("/")" + "GetPhotos?forceRefresh=true";
+            DoPartialRefresh(url, "photosContainer", InstallRating);
+        }
+
+        installPartialRefresh("@Url.Action("GetPhotos")", "photosContainer", 5 /*secondes*/, InstallRating);
+        $("#searchByKeywords").change(function () {
+            let url = @Url.Action("/") + "SetSearchKeywords?keywords=" + $(this).val();
+            ajaxActionCall(url, ForceRefresh);
+        })
+
+
+        $('#doSearch').mouseup(function () {
+            let url = @Url.Action("/") + "SetSearchKeywords?keywords=" + $("#searchByKeywords").val();
+            ajaxActionCall(url, ForceRefresh);
+        });
+
+        $(".sortPhotos").click(function () {
+            $(".sortPhotos").css("color", "black");
+            $(this).css("color", "blue");
+            let url = @Url.Action("/") + "SortPhotosBy?fieldToSort=" + $(this).attr("fieldToSort");
+            ajaxActionCall(url, ForceRefresh);
+        });
+
+    </script>
+}

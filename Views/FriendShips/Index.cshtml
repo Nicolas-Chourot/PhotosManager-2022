@@ -1,0 +1,21 @@
+﻿@{ ViewBag.Title = "Index"; }
+
+<h2>Amitiés</h2>
+<hr />
+<div id="FriendShipStatus">
+    <!-- Periodically refreshed -->
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/partialRefresh")
+
+    <script defer>
+        ForceRefresh();
+        function ForceRefresh() {
+            let url = "@Url.Action("/")" + "GetFriendShipsStatus?forceRefresh=true";
+            DoPartialRefresh(url, "FriendShipStatus");
+        }
+        installPartialRefresh("@Url.Action("GetFriendShipsStatus")", "FriendShipStatus", 5 /*secondes*/);
+    </script>
+}
+
