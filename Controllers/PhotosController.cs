@@ -215,6 +215,7 @@ namespace UsersManager.Controllers
             if (forceRefresh || !IsPhotosUpToDate() || OnlineUsers.NeedUpdate())
             {
                 Photo Photo = DB.Photos.Find(photoId);
+                ViewBag.Visility = (DB.AreFriends(OnlineUsers.CurrentUserId, Photo.UserId) ? "Ami" : "Publique");
                 if (Photo == null)
                     return null;
                 SetLocalPhotosSerialNumber();

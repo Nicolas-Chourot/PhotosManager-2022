@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace UsersManager.Models
 {
@@ -38,7 +36,6 @@ namespace UsersManager.Models
             PhotoReference.Remove(GUID);
         }
     }
-
 
     public class PhotoView
     {

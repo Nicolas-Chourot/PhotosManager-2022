@@ -39,13 +39,16 @@
 <hr />
 <div class="PhotoDetailsLayout">
     <div>
-        @Helper.AvatarUser(Model.User)
+        <div style="display:grid; grid-template-columns: 180px 26px">
+            <div>@Helper.AvatarUser(Model.User)</div>
+            <div style="margin-top:-25px"><h3>@ViewBag.Visility</h3></div>
+        </div>
         <div style="display:grid; grid-template-columns:150px auto">
             @Helper.Rating(Model.Id.ToString(), Model.Ratings, true, 2)
             <span style="font-size:20px">@Math.Round(Model.Ratings, 1) / @Model.RatingsCount</span>
         </div>
         @Helper.PhotoBig(Model)
-        <div style="margin-top:8px; width:500px; text-align:justify">
+        <div style="margin-top:8px; width:700px; text-align:justify">
             @Model.Description
             <br /> <br />
         </div>
