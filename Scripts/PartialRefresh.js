@@ -6,20 +6,15 @@
         this.refreshRate = refreshRate * 1000;
         this.paused = false;
         this.refresh(true);
-        setInterval(
-            () => {
-                this.refresh();
-            },
-            refreshRate * 1000);
+        setInterval(() => { this.refresh() }, this.refreshRate);
     }
 
-    pause() { this.paused = true; }
+    pause() { this.paused = true }
 
-    restart() { this.paused = false; }
+    restart() { this.paused = false }
 
     replaceContent(htmlContent) {
         if (htmlContent !== "") {
-            console.log(this.container)
             $("#" + this.container).html(htmlContent);
             if (this.callback != null) this.callback();
         }
@@ -39,14 +34,11 @@
         $.ajax({
             url: url,
             method: 'GET',
-            success: () => { this.refresh(true); }
+            success: () => { this.refresh(true) }
         });
     }
 
     confirmedCommand(message, url) {
-        bootbox.confirm(message, (result) => {
-            this.command(url);
-        });
+        bootbox.confirm(message, (result) => { this.command(url) });
     }
 }
-
