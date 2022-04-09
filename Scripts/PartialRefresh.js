@@ -1,45 +1,52 @@
-﻿let refreshPaused = false;
-
-function installPartialRefresh(serviceURL, divContainerId, refreshRate, callBack = null) {
-    // intallation of partial refresh
-    setInterval(() => { DoPartialRefresh(serviceURL, divContainerId, callBack); }, refreshRate * 1000);
-}
-function PauseRefresh() {
-    refreshPaused = true;
-    console.log("partial refresh paused");
-}
-
-function StartRefresh() {
-    refreshPaused = false;
-    console.log("partial refresh started");
-}
-
-function DoPartialRefresh(serviceURL, divContainerId, callBack = null) {
-    // posts partial refresh
-    if (!refreshPaused) {
-        $.ajax({
-            url: serviceURL,
-            dataType: "html",
-            success: function (htmlContent) {
-                if (htmlContent !== "") {
-                    $("#" + divContainerId).html(htmlContent);
-                    if (callBack != null) callBack();
-                }
-            }
-        })
+﻿class PartialRefresh {
+    constructor(serviceURL, container, refreshRate, callback = null) {
+        this.serviceURL = serviceURL;
+        this.container = container;
+        this.callback = callback;
+        this.refreshRate = refreshRate * 1000;
+        this.paused = false;
+        this.refresh(true);
+        setInterval(
+            () => {
+                this.refresh();
+            },
+            refreshRate * 1000);
     }
-}
 
-function ajaxActionCall(actionLink, callback = null) {
-    // Ajax Action Call to actionLink
-    $.ajax({
-        url: actionLink,
-        method: 'GET',
-        success: (data) => {
-            if (callback != null) {
-                callback(data);
-            }
+    pause() { this.paused = true; }
+
+    restart() { this.paused = false; }
+
+    replaceContent(htmlContent) {
+        if (htmlContent !== "") {
+            console.log(this.container)
+            $("#" + this.container).html(htmlContent);
+            if (this.callback != null) this.callback();
         }
-    });
+    }
+
+    refresh(forced = false) {
+        if (!this.paused) {
+            $.ajax({
+                url: this.serviceURL + (forced ? (this.serviceURL.indexOf("?") > -1 ? "&" : "?") + "forceRefresh=true" : ""),
+                dataType: "html",
+                success: (htmlContent) => { this.replaceContent(htmlContent) }
+            })
+        }
+    }
+
+    command(url) {
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: () => { this.refresh(true); }
+        });
+    }
+
+    confirmedCommand(message, url) {
+        bootbox.confirm(message, (result) => {
+            this.command(url);
+        });
+    }
 }
 

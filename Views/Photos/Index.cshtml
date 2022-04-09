@@ -21,31 +21,27 @@
     @Scripts.Render("~/bundles/ratings")
     @Scripts.Render("~/bundles/partialRefresh")
 
-    <script defer>
-        ForceRefresh();
-        function ForceRefresh() {
-            let url = "@Url.Action("/")" + "GetPhotos?forceRefresh=true";
-            DoPartialRefresh(url, "photosContainer", InstallRating);
-        }
+<script defer>
 
-        installPartialRefresh("@Url.Action("GetPhotos")", "photosContainer", 5 /*secondes*/, InstallRating);
+    let partialRefresh = new PartialRefresh("@Url.Action("GetPhotos")", "photosContainer", 5, InstallRating);
+
         $("#searchByKeywords").change(function () {
             let url = @Url.Action("/") + "SetSearchKeywords?keywords=" + $(this).val();
-            ajaxActionCall(url, ForceRefresh);
+            partialRefresh.command(url);
         })
-
 
         $('#doSearch').mouseup(function () {
             let url = @Url.Action("/") + "SetSearchKeywords?keywords=" + $("#searchByKeywords").val();
-            ajaxActionCall(url, ForceRefresh);
+            partialRefresh.command(url);
         });
 
         $(".sortPhotos").click(function () {
             $(".sortPhotos").css("color", "black");
             $(this).css("color", "blue");
             let url = @Url.Action("/") + "SortPhotosBy?fieldToSort=" + $(this).attr("fieldToSort");
-            ajaxActionCall(url, ForceRefresh);
+            partialRefresh.command(url);
         });
 
-    </script>
+
+</script>
 }

@@ -45,7 +45,7 @@
         <div>
             @if (!item.IsAdmin)
             {
-                @Helper.GlyphiconConfirmAjaxAction("Delete/" + item.Id.ToString(), "ForceRefresh", "glyphicon-remove-circle", "Effacer l'usager " + item.GetFullName() + "...")
+                @Helper.GlyphiconConfirmCommand("Delete/" + item.Id.ToString(), "partialRefresh.command", "glyphicon-remove-circle", "Effacer l'usager " + item.GetFullName() + "...")
             }
             else
             {

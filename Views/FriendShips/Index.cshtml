@@ -9,13 +9,8 @@
 @section Scripts {
     @Scripts.Render("~/bundles/partialRefresh")
 
-    <script defer>
-        ForceRefresh();
-        function ForceRefresh() {
-            let url = "@Url.Action("/")" + "GetFriendShipsStatus?forceRefresh=true";
-            DoPartialRefresh(url, "FriendShipStatus");
-        }
-        installPartialRefresh("@Url.Action("GetFriendShipsStatus")", "FriendShipStatus", 5 /*secondes*/);
-    </script>
+<script defer>
+    let partialRefresh = new PartialRefresh("@Url.Action("GetFriendShipsStatus")", "FriendShipStatus", 5);
+  </script>
 }
 

@@ -12,13 +12,8 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/partialRefresh")
 
-    <script defer>
-        ForceRefresh();
-        function ForceRefresh() {
-            let url = "@Url.Action("/")" + "GetLoginsList?forceRefresh=true";
-            DoPartialRefresh(url, "LoginsListContainer");
-        }
-        installPartialRefresh("@Url.Action("GetLoginsList")", "LoginsListContainer", 5 /*secondes*/);
-    </script>
+<script defer>
+    let partialRefresh = new PartialRefresh("@Url.Action("GetLoginsList")", "LoginsListContainer", 5);
+</script>
 }
 

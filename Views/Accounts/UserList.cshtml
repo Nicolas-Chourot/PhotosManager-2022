@@ -23,20 +23,15 @@
     @Scripts.Render("~/bundles/partialRefresh")
 
 <script defer>
-        ForceRefresh();
-        function ForceRefresh() {
-            let url = "@Url.Action("/")" + "GetUsersList?forceRefresh=true";
-            DoPartialRefresh(url, "UsersListContainer", UpdateCheckboxChangeCallback);
-        }
-        UpdateCheckboxChangeCallback();
-        installPartialRefresh("@Url.Action("GetUsersList")", "UsersListContainer", 5 /*secondes*/, UpdateCheckboxChangeCallback);
+    let partialRefresh = new PartialRefresh("@Url.Action("GetUsersList")", "UsersListContainer", 5, UpdateCheckboxChangeCallback);
 
         function UpdateCheckboxChangeCallback() {
             // renew checkbox change call back
             $(".CB_Blocked").change(
                 function () {
                     let userid = this.id.split('_')[1];
-                    ajaxActionCall("@Url.Action("ChangeUserBlockedStatus")" + "?userid=" + userid + "&blocked=" + this.checked.toString(), ForceRefresh);
+                    let url = "@Url.Action("ChangeUserBlockedStatus")" + "?userid=" + userid + "&blocked=" + this.checked.toString();
+                    partialRefresh.command(url);
                 }
             );
         }

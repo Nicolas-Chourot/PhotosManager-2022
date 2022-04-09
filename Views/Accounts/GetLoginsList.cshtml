@@ -12,7 +12,7 @@
             <hr />
             <div style="display:grid; grid-template-columns:80px 30px">
                 @login.LoginDate.ToShortDateString()
-                @Helper.GlyphiconConfirmAjaxAction(deleteAction, "ForceRefresh", "glyphicon-remove-circle", "Effacer la journée du " + login.LoginDate.ToShortDateString())
+                @Helper.GlyphiconConfirmCommand(deleteAction, "partialRefresh.command", "glyphicon-remove-circle", "Effacer la journée du " + login.LoginDate.ToShortDateString())
             </div>
             <hr />
         }
