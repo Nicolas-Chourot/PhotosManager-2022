@@ -1,21 +1,11 @@
 ﻿@model UsersManager.Models.Photo
-
-@{
-    ViewBag.Title = "Details";
-}
-
-<div id="PhotoDetailsContainer">
-    <!-- Periodically refreshed -->
-</div>
-
+@{ ViewBag.Title = "Details";}
+<div id="PhotoDetailsContainer">  <!-- Periodically refreshed --> </div>
 @section Scripts {
     @Scripts.Render("~/bundles/ratings")
     @Scripts.Render("~/bundles/partialRefresh")
-
-<script defer>
-
-    let partialRefresh = new PartialRefresh("@Url.Action("GetPhotoDetails", new { photoId = (int)Model.Id })", "PhotoDetailsContainer", 5, PostRefreshTasks);
-        
+    <script defer>
+        let partialRefresh = new PartialRefresh("@Url.Action("GetPhotoDetails", new { photoId = (int)Model.Id })", "PhotoDetailsContainer", 5, PostRefreshTasks);
         function PostRefreshTasks() {
             InstallRating();
             $("#currentUserRatingForm").hide();
@@ -48,6 +38,5 @@
                 partialRefresh.command(url);
             });
         }
-
-</script>
+    </script>
 }
