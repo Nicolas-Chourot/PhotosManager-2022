@@ -6,11 +6,11 @@
         if (option.Value == selectedValue.ToString())
         {
             <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" checked />
- }
+        }
         else
         {
             <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" />
- }
+        }
         <label for="@id" class="control-label">@option.Text</label> }
     <br />
 }
@@ -23,11 +23,11 @@
             if (option.Value == selectedValue.ToString())
             {
                 <option value="@option.Value" selected>@option.Text</option>
- }
+            }
             else
             {
                 <option value="@option.Value">@option.Text</option>
-}
+            }
         }
     </select>
 }
@@ -67,6 +67,8 @@
 
 @helper GlyphiconConfirmCommand(string url, string method, string glyphiconClass, string TooltipMessage, string ToolTipPlacement = "bottom")
 {
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    url = Url.Action("/") + url;
     glyphiconClass += " glyphicon-active";
     string javascript = "function(result) { if (result) " + method + "('" + url + "') }";
     <div onclick='bootbox.confirm("@TooltipMessage", @javascript)'>
@@ -230,7 +232,7 @@
     if (checkStatus)
     {
         <img src="@Url.Content("~/Content/UI-icons/Accept.png")" class="small_icon" />
- }
+    }
     else
     {
         <div></div>}
