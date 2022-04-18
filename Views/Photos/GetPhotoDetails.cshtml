@@ -5,6 +5,7 @@
     int currentUserRating = 0;
     string currentUserComment = "";
     DateTime currentUserRatingCreationDate = DateTime.Now;
+    DateTime creationDate = Model.CreationDate.Subtract(new TimeSpan((int)Session["TimeZoneOffset"], 0, 0));
     bool writeAccess = Model.UserId == currentUser.Id;
     if (currentPhotoRating != null)
     {
@@ -12,12 +13,12 @@
         currentUserComment = currentPhotoRating.Comment;
         currentUserRatingCreationDate = currentPhotoRating.CreationDate;
     }
-    string sortDatesIconColor = ((string)Session["RatingFieldToSort"] == "dates" ? "blue" : "black");
-    string sortUsersIconColor = ((string)Session["RatingFieldToSort"] == "users" ? "blue" : "black");
-    string sortRatingsIconColor = ((string)Session["RatingFieldToSort"] == "ratings" ? "blue" : "black");
+    string sortDatesIconColor = ((string)Session["RatingFieldToSort"] == "dates" ? "blue" : "gray");
+    string sortUsersIconColor = ((string)Session["RatingFieldToSort"] == "users" ? "blue" : "gray");
+    string sortRatingsIconColor = ((string)Session["RatingFieldToSort"] == "ratings" ? "blue" : "gray");
 }
 <div>
-    <h2>@Model.Title</h2>
+    <div class="PageTitle">@Model.Title <span style="color:gray;font-size:14px">[@ViewBag.Visility]</span></div>
     <div style="display:grid; grid-template-columns:30px 30px 30px">
         @Helper.GlyphiconAction("Index", "glyphicon-circle-arrow-left", "Retour à la liste")
         @if (writeAccess)
@@ -37,17 +38,21 @@
 </div>
 <hr />
 <div class="PhotoDetailsLayout">
-    <div>
-        <div style="display:grid; grid-template-columns: 180px 26px">
+    <div style="padding-right:20px;">
+        <div style="display:grid; grid-template-columns: 180px auto">
             <div>@Helper.AvatarUser(Model.User)</div>
-            <div style="margin-top:-25px"><h3>@ViewBag.Visility</h3></div>
+            <div style="margin-top:-25px; text-align:right"><h3></h3></div>
         </div>
-        <div style="display:grid; grid-template-columns:150px auto">
+        <div style="display:grid; grid-template-columns:150px auto auto">
             @Helper.Rating(Model.Id.ToString(), Model.Ratings, true, 2)
             <span style="font-size:20px">@Math.Round(Model.Ratings, 1) / @Model.RatingsCount</span>
+            <div style="font-size:20px; text-align:right">
+                @creationDate.When()
+                <div class="glyphicon glyphicon-time smallGlyphicon" title="@creationDate.ToShortTimeStringFRCA()" data-placement="right"></div>
+            </div>
         </div>
         @Helper.PhotoBig(Model)
-        <div style="margin-top:8px; width:700px; text-align:justify">
+        <div style="margin-top:8px; width:100%; text-align:justify">
             @Model.Description
             <br /> <br />
         </div>
@@ -56,30 +61,33 @@
         <legend>
             Évaluations
         </legend>
-        <div id="commandSection" style="display:grid; grid-template-columns: 60px 30px 30px 30px">
-            <span id="AddModifyCurrentUserRating" class="glyphicon glyphiconStyle glyphicon-edit pointer" title="Ajouter/Modifier votre évaluation" style="color: #337ab7"></span>
-            <span id="sortDates" fieldToSort="dates" style="color:@sortDatesIconColor" class="sortRatings glyphicon glyphiconStyle glyphicon-calendar pointer" title="Trier par dates d'évaluation" ></span>
-            <span id="sortUsers" fieldToSort="users" style="color:@sortUsersIconColor" class="sortRatings glyphicon glyphiconStyle glyphicon-user pointer" title="Trier par noms d'usager" ></span>
-            <span id="sortRatings" fieldToSort="ratings" style="color:@sortRatingsIconColor" class="sortRatings glyphicon glyphiconStyle glyphicon-star pointer" title="Trier par évaluations" ></span>
+        <div id="commandSection">
+            <div style="display:grid; grid-template-columns: 60px 30px 30px 30px">
+                <span id="AddModifyCurrentUserRating" class="glyphicon glyphiconStyle glyphicon-edit pointer" title="Ajouter/Modifier votre évaluation" style="color: #337ab7"></span>
+                <span id="sortDates" fieldToSort="dates" style="color:@sortDatesIconColor" class="sortRatings glyphicon glyphiconStyle glyphicon-calendar pointer" title="Trier par dates d'évaluation"></span>
+                <span id="sortUsers" fieldToSort="users" style="color:@sortUsersIconColor" class="sortRatings glyphicon glyphiconStyle glyphicon-user pointer" title="Trier par noms d'usager"></span>
+                <span id="sortRatings" fieldToSort="ratings" style="color:@sortRatingsIconColor" class="sortRatings glyphicon glyphiconStyle glyphicon-star pointer" title="Trier par évaluations"></span>
+            </div>
+            <hr />
         </div>
-        <div id="PhotoRatingsContainer" class="PhotoRatingsContainer">
 
-            <div id="currentUserRatingForm">
-                <hr />
-                <div style="height: 40px; display:grid; grid-template-columns: 180px auto">
+        <div id="PhotoRatingsContainer" class="PhotoRatingsContainer" style="padding-top:10px">
+
+            <div id="currentUserRatingForm" style="margin-bottom:20px">
+                <div style="height: 40px; display:grid; grid-template-columns: 180px">
                     <div>
                         @Helper.AvatarUser(currentUser)
                     </div>
-                    <div>
-                        @Helper.When(currentUserRatingCreationDate)
-                    </div>
+
                 </div>
-                <div style="height: 25px; display:grid; grid-template-columns: 110px 26px 26px">
+                <div style="height: 25px; display:grid; grid-template-columns: 110px 26px 26px 26px">
                     @Helper.Rating("ratingCurrentUser", currentUserRating, false, 1.4)
-                    <div id="updateCurrentUserRating" class="glyphicon glyphicon-green glyphiconStyle glyphicon-ok pointer" title="Modifier votre évaluation" style=""></div>
-                    <div id="cancelCurrentUserRating" class="glyphicon glyphicon-red glyphiconStyle glyphicon-remove pointer" title="Annuler la Modification de votre évaluation" style=""></div>
+                    <div id="updateCurrentUserRating" class="glyphicon glyphicon-green glyphiconStyle glyphicon-ok pointer" title="Modifier votre évaluation"></div>
+                    <div id="cancelCurrentUserRating" class="glyphicon glyphicon-red glyphiconStyle glyphicon-remove pointer" title="Annuler la Modification de votre évaluation"></div>
+                    <div id="removeCurrentUserRating" class="glyphicon glyphicon-red glyphiconStyle glyphicon-remove-circle pointer" title="Effacer votre évaluation"></div>
                 </div>
                 <textarea id="commentCurrentUser" style="width:100%">@currentUserComment</textarea>
+                <hr />
             </div>
             @{
                 IEnumerable<UsersManager.Models.PhotoRating> PhotoRatings = null;
@@ -122,21 +130,22 @@
                 {
                     if (!photoRating.User.Blocked)
                     {
-                        <hr />
-                        <div style="height: 40px; display:grid; grid-template-columns: 180px auto">
-                            <div>
-                                @Helper.AvatarUser(photoRating.User)
+                        <div style="margin-bottom:20px">
+                            <div style="height: 40px; display:grid; grid-template-columns: 180px auto">
+                                <div>
+                                    @Helper.AvatarUser(photoRating.User)
+                                </div>
+                                <div>
+                                    @photoRating.CreationDate.When()
+                                    <div class="glyphicon glyphicon-time smallGlyphicon" title="@photoRating.CreationDate.ToShortTimeStringFRCA()" data-placement="right"></div>
+                                </div>
                             </div>
-
                             <div>
-                                @Helper.When(photoRating.CreationDate)
+                                @Helper.Rating("rating_" + photoRating.Id, photoRating.Rating, true, 1.4)
                             </div>
-                        </div>
-                        <div>
-                            @Helper.Rating("rating_" + photoRating.Id, photoRating.Rating, true, 1.4)
-                        </div>
-                        <div>
-                            @photoRating.Comment
+                            <div>
+                                @photoRating.Comment
+                            </div>
                         </div>
                     }
                 }

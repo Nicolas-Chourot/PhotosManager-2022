@@ -5,14 +5,16 @@
 
     foreach (var login in Model)
     {
+        DateTime LoginDateLT = login.LoginDate.Subtract(new TimeSpan((int)Session["TimeZoneOffset"], 0, 0));
+        DateTime LogoutDateLT = login.LogoutDate.Subtract(new TimeSpan((int)Session["TimeZoneOffset"], 0, 0));
         if (login.LoginDate.Day != currentDay)
         {
-            currentDay = login.LoginDate.Day; ///  /DeleteJournalDay?day=2022-03-24 DateTime dayToDelete = DateTime.Parse(day)
-            string deleteAction = "DeleteJournalDay" + "?day=" + login.LoginDate.ToShortDateString().Trim();
+            currentDay = login.LoginDate.Day;
+            string deleteAction = "DeleteJournalDay" + "?day=" + login.LoginDate.ToShortDateStringFRCA().Trim();
             <hr />
             <div style="display:grid; grid-template-columns:80px 30px">
-                @login.LoginDate.ToShortDateString()
-                @Helper.GlyphiconConfirmCommand(deleteAction, "partialRefresh.command", "glyphicon-remove-circle", "Effacer la journée du " + login.LoginDate.ToShortDateString())
+                @LoginDateLT.ToShortDateStringFRCA()
+                @Helper.GlyphiconConfirmCommand(deleteAction, "partialRefresh.command", "glyphicon-remove-circle", "Effacer la journée du " + LoginDateLT.ToShortDateStringFRCA())
             </div>
             <hr />
         }
@@ -21,12 +23,12 @@
                 @Helper.AvatarUser(login.User)
             </div>
             <div style="margin-top:2px;">
-                @login.LoginDate.ToShortTimeString()
+                @LoginDateLT.ToShortTimeStringFRCA()
             </div>
 
             @if (login.LoginDate != login.LogoutDate)
             {
-                <div style="margin-top:2px;">&nbsp;:&nbsp;@login.LogoutDate.ToShortTimeString()</div>
+                <div style="margin-top:2px;">&nbsp;:&nbsp;@LogoutDateLT.ToShortTimeStringFRCA()</div>
             }
             else
             {

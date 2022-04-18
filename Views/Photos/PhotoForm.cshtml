@@ -7,11 +7,13 @@
 
 @if (Model.Id == 0)
 {
-    <h2>Ajout de photo</h2>
+    <div class="PageTitle">Ajout de photo</div>
 }
 else
 {
-    <h2>Modification de photo</h2>
+    <div class="PageTitle">
+        Modification de photo
+    </div>
 }
 @Helper.GlyphiconAction("Index", "glyphicon-circle-arrow-left", "Retour à la liste")
 <hr />
@@ -26,22 +28,22 @@ else
     @Html.HiddenFor(model => model.Ratings)
 
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div>
+    <fieldset class="formField ">
+        <legend>Titre</legend>
         @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", placeholder = "Titre" } })
         @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-    </div>
-    <br />
-    <div>
-        @Html.TextAreaFor(model => model.Description, 8, 60, new { @class = "form-control", placeholder = "Description" })
+    </fieldset>
+    <fieldset class="formField ">
+        <legend>Description</legend>
+        @Html.TextAreaFor(model => model.Description, 4, 60, new { @class = "form-control", placeholder = "Description" })
         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-    </div>
-    <br />
+    </fieldset>
     <fieldset class="formField imageUploaderContainer">
         <legend>Image</legend>
         @Helper.ImageUploader(Model.Id, Model.GetUrl(), "Data", Url.Content("~/ImagesData/Loading_icon.gif"), "Cliquez ou déposez pour changer l'image")
         @Html.ValidationMessage("Data", "", new { @class = "text-danger" })
     </fieldset>
-    <fieldset class="formField imageUploaderContainer">
+    <fieldset class="formField ">
         <legend>Visibilité</legend>
         @Helper.ListToRadioButtonGroup("VisibilityId", (SelectList)ViewBag.Visibilities, Model.VisibilityId)
         @Html.ValidationMessageFor(model => model.VisibilityId, "", new { @class = "text-danger" })

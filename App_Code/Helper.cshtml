@@ -5,11 +5,11 @@
 
         if (option.Value == selectedValue.ToString())
         {
-            <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" checked />
+            <input type="radio" name="@name" class="@name" id="@id" value="@option.Value" checked />
         }
         else
         {
-            <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" />
+            <input type="radio" name="@name" class="@name" id="@id" value="@option.Value" />
         }
         <label for="@id" class="control-label">@option.Text</label> }
     <br />
@@ -51,6 +51,17 @@
     </a>
 }
 
+@helper GlyphiconControllerAction(string Controller, string Action, string glyphiconClass, string TooltipMessage, string ToolTipPlacement = "bottom")
+{glyphiconClass += " glyphicon-active";
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    <a href="@Url.Action(Action, Controller)" style="text-decoration:none">
+        <span class="glyphicon glyphiconStyle @glyphiconClass"
+              title="@TooltipMessage"
+              data-placement="@ToolTipPlacement">
+        </span>
+    </a>
+}
+
 @helper GlyphiconConfirmAction(string Action, string glyphiconClass, string TooltipMessage, string ToolTipPlacement = "bottom")
 {glyphiconClass += " glyphicon-active";
     //// http://bootboxjs.com/documentation.html#bb-confirm
@@ -67,8 +78,6 @@
 
 @helper GlyphiconConfirmCommand(string url, string method, string glyphiconClass, string TooltipMessage, string ToolTipPlacement = "bottom")
 {
-    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
-    url = Url.Action("/") + url;
     glyphiconClass += " glyphicon-active";
     string javascript = "function(result) { if (result) " + method + "('" + url + "') }";
     <div onclick='bootbox.confirm("@TooltipMessage", @javascript)'>
@@ -78,7 +87,6 @@
         </span>
     </div>
 }
-
 
 @helper BoolToValue(bool b, string falseText = "non", string trueText = "oui")
 {if (b)
@@ -95,11 +103,16 @@
 }
 
 @helper When(DateTime date)
-{TimeSpan span = DateTime.Now.Subtract(date);
+{
+    TimeSpan span = DateTime.Now.Subtract(date);
+    DateTime localTime = date.Subtract(new TimeSpan((int)Session["TimeZoneOffset"], 0, 0));
     if (span.Days > 0)
     {
-        <div style="float:left">Le @date.ToLongDateString()&nbsp;</div>
-        <div class="glyphicon glyphicon-time smallGlyphicon" title="@date.ToShortTimeString()" data-placement="right"></div> }
+        <div style="display:grid; grid-template-columns:auto 30px;">
+            <div>@localTime.ToLongDateString()&nbsp;</div>
+            <div class="glyphicon glyphicon-time smallGlyphicon" title="@localTime.ToShortTimeString()" data-placement="right"></div>
+        </div>
+    }
     else
     {
         if (span.Hours > 1)
@@ -136,7 +149,6 @@
     <a href="@linkUrl" data-toogle="tooltip" title="Modifier le profil">
         <div class="smallAvatar"
              style="background: url(@avatarUrl) no-repeat center center; background-size: cover;"></div>
-        <span class="menuTitle">&nbsp;@user.GetFullName()</span>
     </a>
 }
 
@@ -145,8 +157,8 @@
     var avatarUrl = Url.Content(user.GetAvatarURL());
     <div>
         <div class="smallAvatar"
-             style="background: url(@avatarUrl) no-repeat center center; background-size: cover; float:left;"></div>
-        <div class="ellipsis" style="float:none;">&nbsp;@user.GetFullName()</div>
+             style="background: url(@avatarUrl) no-repeat center center; background-size: cover; float:left; border:1px solid black;"></div>
+        <div class="ellipsis" style="float:none;color:dimgray">&nbsp;@user.GetFullName()</div>
     </div>
     <br />
 }
@@ -169,7 +181,10 @@
                  title="@descriptionSample">
             </div>
 
-            <div style="margin-top:4px" class="rating" ratingId="Ratings_@photo.Id" value="@roundedRating.ToString()" locked="True" scale="1.5"></div>
+            <div style="display:grid; grid-template-columns:auto auto">
+                <div style="margin-top:4px" class="rating" ratingId="Ratings_@photo.Id" value="@roundedRating.ToString()" locked="True" scale="1.5"></div>
+                <span style="text-decoration:none; font-size:14px; color:black; margin-top:5px;">@Math.Round(photo.Ratings, 1) / @photo.RatingsCount</span>
+            </div>
         </a>
     </div>
 }

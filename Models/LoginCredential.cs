@@ -15,5 +15,6 @@ namespace UsersManager.Models
         [Display(Name = "Mot de passe"), Required(ErrorMessage = "Obligatoire")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        public int TimeZoneOffset { get; set; }
     }
 }

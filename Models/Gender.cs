@@ -18,14 +18,6 @@ namespace UsersManager.Models
     public partial class Gender
     {
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Gender()
-        {
-
-            this.Users = new HashSet<User>();
-
-        }
-
 
         public int Id { get; set; }
 

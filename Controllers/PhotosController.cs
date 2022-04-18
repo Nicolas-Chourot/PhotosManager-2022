@@ -239,5 +239,17 @@ namespace UsersManager.Controllers
             RenewPhotosSerialNumber();
             return null;
         }
+
+        public ActionResult RemoveCurrentUserRating(int photoId)
+        {
+            PhotoRating photoRating = new PhotoRating();
+            photoRating.UserId = OnlineUsers.CurrentUserId;
+            photoRating.PhotoId = photoId;
+
+            DB.Remove_PhotoRating(photoRating);
+
+            RenewPhotosSerialNumber();
+            return null;
+        }
     }
 }

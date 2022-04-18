@@ -9,13 +9,8 @@ namespace UsersManager.Models
     [MetadataType(typeof(UserView))]
     public partial class User
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            this.Logins = new HashSet<Login>();
-            this.PhotoRatings = new HashSet<PhotoRating>();
-            this.Photos = new HashSet<Photo>();
-
             CreationDate = DateTime.Now;
             UserTypeId = 3; // User
             Verified = false;

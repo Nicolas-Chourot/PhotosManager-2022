@@ -298,6 +298,10 @@ namespace UsersManager.Controllers
                     return View(loginCredential);
                 }
                 OnlineUsers.AddSessionUser(user.Id);
+                DateTime serverDate = DateTime.Now;
+                DateTime universalDate = serverDate.ToUniversalTime();
+                int serverTimeZoneOffset = serverDate.Hour - universalDate.Hour;
+                Session["TimeZoneOffset"] = loginCredential.TimeZoneOffset + serverTimeZoneOffset;
                 Session["currentLoginId"] = DB.AddLogin(user.Id).Id;
                 return RedirectToAction("Index", "Photos");
             }
@@ -396,7 +400,7 @@ namespace UsersManager.Controllers
         {
             try
             {
-                DateTime date = DateTime.Parse(day);
+                DateTime date = DateTime.ParseExact(day, "dd-MM-yyyy", null);
                 DB.DeleteLoginsJournalDay(date);
             }
             catch (Exception) { }

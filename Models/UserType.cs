@@ -18,15 +18,6 @@ using System;
 public partial class UserType
 {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public UserType()
-    {
-
-        this.Users = new HashSet<User>();
-
-    }
-
-
     public int Id { get; set; }
 
     public string Name { get; set; }

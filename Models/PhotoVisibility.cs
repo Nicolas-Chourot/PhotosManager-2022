@@ -18,15 +18,7 @@ namespace UsersManager.Models
     public partial class PhotoVisibility
     {
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PhotoVisibility()
-        {
-
-            this.Photos = new HashSet<Photo>();
-
-        }
-
-
+   
         public int Id { get; set; }
 
         public string Name { get; set; }

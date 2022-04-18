@@ -4,7 +4,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/ratings")
     @Scripts.Render("~/bundles/partialRefresh")
-    <script defer>
+<script defer>
         let partialRefresh = new PartialRefresh("@Url.Action("GetPhotoDetails", new { photoId = (int)Model.Id })", "PhotoDetailsContainer", 5, PostRefreshTasks);
         function PostRefreshTasks() {
             InstallRating();
@@ -31,6 +31,14 @@
                 $("#currentUserRatingForm").hide();
                 $("#commandSection").show();
             })
+             $("#removeCurrentUserRating").click(function () {
+                let rating = $("input[name=ratingCurrentUser").val();
+                let url = @Url.Action("/") + "RemoveCurrentUserRating?photoId=" + "@((int)Model.Id)";
+                partialRefresh.command(url);
+                partialRefresh.restart();
+                $("#currentUserRatingForm").hide();
+                $("#commandSection").show();
+            })
 
             $(".sortRatings").click(function () {
                 $(".sortRatings").css("color", "black");
@@ -38,5 +46,5 @@
                 partialRefresh.command(url);
             });
         }
-    </script>
+</script>
 }
