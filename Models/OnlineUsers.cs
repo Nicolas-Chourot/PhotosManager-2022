@@ -18,7 +18,7 @@ namespace UsersManager.Models
     }
     public static class OnlineUsers
     {
-        private static readonly int TimeOut = 40; // minutes
+        private static readonly int TimeOut = 2; // minutes
         public static List<int> UsersId
         {
             get
@@ -48,8 +48,27 @@ namespace UsersManager.Models
             }
             return new DateTime(0);
         }
+
+        public static void FlushExpiredAccess()
+        {
+            bool oneRemoved = false;
+            do
+            {
+                oneRemoved = false;
+                foreach (UserLastAccess userAccess in LastUsersAccess)
+                {
+                    if ((DateTime.Now - userAccess.LastAccess).TotalMinutes > TimeOut)
+                    {
+                        RemoveUser(userAccess.UserId);
+                        oneRemoved = true;
+                        break;
+                    }
+                }
+            } while (oneRemoved);
+        }
         public static bool SessionExpired(int userId, bool refresh = true)
         {
+            FlushExpiredAccess();
             if (IsOnLine(userId))
             {
                 DateTime lastAccess = LastUserAccess(userId);
@@ -87,16 +106,20 @@ namespace UsersManager.Models
         {
             get
             {
-                try
+                if (HttpContext.Current.Session != null)
                 {
-                    if (HttpContext.Current.Session["UserId"] != null)
-                        return (int)HttpContext.Current.Session["UserId"];
-                    return 0;
+                    try
+                    {
+                        if (HttpContext.Current.Session["UserId"] != null)
+                            return (int)HttpContext.Current.Session["UserId"];
+                        return 0;
+                    }
+                    catch (Exception)
+                    {
+                        return 0;
+                    }
                 }
-                catch (Exception)
-                {
-                    return 0;
-                }
+                return 0;
             }
             set
             {
