@@ -18,7 +18,7 @@ namespace UsersManager.Models
     }
     public static class OnlineUsers
     {
-        private static readonly int TimeOut = 2; // minutes
+        private static readonly int TimeOut = 10; // minutes
         public static List<int> UsersId
         {
             get
