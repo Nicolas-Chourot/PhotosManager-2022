@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UsersManager.Models
 {
@@ -15,7 +16,10 @@ namespace UsersManager.Models
             UserId = OnlineUsers.CurrentUserId;
             VisibilityId = 1;
         }
+        [NotMapped]
         public string Data { get; set; }
+
+        [NotMapped]
         private static ImageGUIDReference PhotoReference =
             new ImageGUIDReference(@"/ImagesData/Photos/", @"No_Photo.png", true);
 

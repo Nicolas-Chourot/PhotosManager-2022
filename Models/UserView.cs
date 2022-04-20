@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -17,6 +18,7 @@ namespace UsersManager.Models
             Blocked = false;
         }
 
+        [NotMapped]
         private static ImageGUIDReference AvatarReference = 
             new ImageGUIDReference(@"/ImagesData/Avatars/", @"no_avatar.png", false);
 
@@ -33,11 +35,16 @@ namespace UsersManager.Models
             AvatarReference.Remove(Avatar);
         }
 
+        [NotMapped]
         public string ConfirmEmail { get; set; }
+
+        [NotMapped]
         public string ConfirmPassword { get; set; }
 
         [Display(Name = "Avatar")]
+        [NotMapped]
         public string AvatarImageData { get; set; }
+
         public bool IsAdmin
         {
             get { return UserTypeId == 1 /*Admin*/; }

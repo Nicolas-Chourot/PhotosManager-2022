@@ -116,6 +116,11 @@ namespace UsersManager.Models
                 DB.SaveChanges();
                 DB.DeleteFriendShips(userId);
                 DB.PhotoRatings.RemoveRange(DB.PhotoRatings.Where(pr => pr.UserId == userId));
+                foreach(Photo photo in DB.Photos.Where(p => p.UserId == userId))
+                {
+                    DB.PhotoRatings.RemoveRange(DB.PhotoRatings.Where(pr => pr.PhotoId == photo.Id));
+                    photo.Remove();
+                }
                 DB.Photos.RemoveRange(DB.Photos.Where(p => p.UserId == userId));
                 Commit();
                 return true;

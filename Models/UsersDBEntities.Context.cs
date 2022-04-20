@@ -28,7 +28,8 @@ public partial class UsersDBEntities : DbContext
 
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {
-        throw new UnintentionalCodeFirstException();
+        // This cause problems with Azure
+        // throw new UnintentionalCodeFirstException();
     }
 
 
