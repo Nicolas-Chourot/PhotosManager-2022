@@ -163,6 +163,11 @@ namespace UsersManager.Models
         {
             SerialNumber = Guid.NewGuid().ToString();
         }
+        public static void MakeCurrentUser(User user)
+        {
+            HttpContext.Current.Session["CurrentUser"] = user.Clone();
+            AddSessionUser(user.Id);
+        }
         public static void AddSessionUser(int userId)
         {
             if (userId != 0)
@@ -180,6 +185,7 @@ namespace UsersManager.Models
         {
             RemoveUser(CurrentUserId);
             CurrentUserId = 0;
+            HttpContext.Current.Session["CurrentUser"] = null;
         }
         public static void RemoveUser(int userId)
         {
@@ -194,10 +200,7 @@ namespace UsersManager.Models
         {
             if (CurrentUserId != 0)
             {
-                UsersDBEntities DB = new UsersDBEntities();
-                User user = DB.FindUser(CurrentUserId);
-                DB.Dispose();
-                return user;
+                return (User)HttpContext.Current.Session["CurrentUser"];
             }
             return null;
         }

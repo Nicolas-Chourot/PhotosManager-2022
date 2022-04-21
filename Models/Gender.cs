@@ -14,6 +14,7 @@ namespace UsersManager.Models
 
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class Gender
     {
@@ -26,7 +27,6 @@ namespace UsersManager.Models
 
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
         public virtual ICollection<User> Users { get; set; }
 
     }

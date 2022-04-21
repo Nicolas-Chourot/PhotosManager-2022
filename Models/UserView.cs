@@ -19,7 +19,7 @@ namespace UsersManager.Models
         }
 
         [NotMapped]
-        private static ImageGUIDReference AvatarReference = 
+        private static ImageGUIDReference AvatarReference =
             new ImageGUIDReference(@"/ImagesData/Avatars/", @"no_avatar.png", false);
 
         public String GetAvatarURL()
@@ -58,7 +58,25 @@ namespace UsersManager.Models
             }
             return FirstName + " " + LastName;
         }
-     }
+
+        public User Clone()
+        {
+            User user = new User();
+            user.Id = this.Id;
+            user.UserTypeId = this.UserTypeId;
+            user.UserType = null;
+            user.CreationDate = this.CreationDate;
+            user.Email = this.Email;
+            user.FirstName = this.FirstName;
+            user.LastName = this.LastName;
+            user.GenderId = this.GenderId;
+            user.Gender = null;
+            user.Avatar = this.Avatar;
+            user.Password = this.Password;
+            user.Blocked = this.Blocked;
+            return user;
+        }
+    }
 
     public class UserView
     {

@@ -284,7 +284,6 @@
       <DependentUpon>UsersDBEntities.edmx</DependentUpon>
     </Content>
     <Content Include="App_Code\Helper.cshtml" />
-    <None Include="Properties\PublishProfiles\PhotosManager-420KBD - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\FormUtilities.js" />
     <Content Include="Scripts\imageUploader.js" />
@@ -360,6 +359,7 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <PropertyGroup>

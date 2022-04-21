@@ -1,11 +1,11 @@
-﻿@model IEnumerable<UsersManager.Models.User>
+﻿@model IEnumerable<UsersManager.Models.Photo>
 @{ ViewBag.Title = "Index"; }
 
 <h2>Page d'application</h2>
 
-@foreach (var user in Model)
+@foreach (var photo in Model)
 {
     <div>
-        @user.GetFullName()
+      @photo.User.GetFullName() <b>@photo.Title</b> @photo.GetUrl()
     </div>
 }

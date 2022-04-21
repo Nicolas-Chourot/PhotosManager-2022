@@ -14,6 +14,7 @@ namespace UsersManager.Models
 
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class Login
     {
@@ -25,7 +26,6 @@ namespace UsersManager.Models
         public System.DateTime LoginDate { get; set; }
 
         public System.DateTime LogoutDate { get; set; }
-
 
 
         public virtual User User { get; set; }

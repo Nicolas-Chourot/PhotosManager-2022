@@ -12,7 +12,7 @@ namespace UsersManager.Controllers
         UsersDBEntities DB = new UsersDBEntities();
         public ActionResult Index()
         {       
-            return View(DB.Users);
+            return View(DB.Photos);
         }
     }
 }

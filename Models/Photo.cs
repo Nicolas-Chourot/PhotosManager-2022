@@ -14,6 +14,7 @@ namespace UsersManager.Models
 
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class Photo
     {
@@ -36,14 +37,10 @@ namespace UsersManager.Models
 
         public Nullable<int> RatingsCount { get; set; }
 
-
-
         public virtual User User { get; set; }
-
         public virtual PhotoVisibility PhotoVisibility { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
         public virtual ICollection<PhotoRating> PhotoRatings { get; set; }
 
     }

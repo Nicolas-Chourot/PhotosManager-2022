@@ -4,6 +4,13 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
+//Data Source
+//=tcp:photosmanagerdbserver.database.windows.net,1433;
+//Initial Catalog=PhotosManager_db;
+//User Id=PhotosManagerAdmin@photosmanagerdbserver;
+//Password=Admin_Password;
+//MultipleActiveResultSets=true; <--- important
+
 namespace UsersManager.Models
 {
     public static class UsersDBDAL

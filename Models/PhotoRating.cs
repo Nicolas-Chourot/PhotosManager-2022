@@ -14,6 +14,7 @@ namespace UsersManager.Models
 
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class PhotoRating
     {
@@ -31,9 +32,7 @@ namespace UsersManager.Models
         public System.DateTime CreationDate { get; set; }
 
 
-
         public virtual Photo Photo { get; set; }
-
         public virtual User User { get; set; }
 
     }

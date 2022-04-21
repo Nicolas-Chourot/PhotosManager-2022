@@ -297,7 +297,8 @@ namespace UsersManager.Controllers
                     ModelState.AddModelError("Email", "Cet usager est déjà connecté.");
                     return View(loginCredential);
                 }
-                OnlineUsers.AddSessionUser(user.Id);
+                //OnlineUsers.AddSessionUser(user.Id);
+                OnlineUsers.MakeCurrentUser(user);
                 DateTime serverDate = DateTime.Now;
                 DateTime universalDate = serverDate.ToUniversalTime();
                 int serverTimeZoneOffset = serverDate.Hour - universalDate.Hour;

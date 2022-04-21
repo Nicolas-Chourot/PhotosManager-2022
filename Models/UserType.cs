@@ -12,22 +12,22 @@
 namespace UsersManager.Models
 {
 
-using System;
+    using System;
     using System.Collections.Generic;
-    
-public partial class UserType
-{
+    using System.ComponentModel.DataAnnotations.Schema;
 
-    public int Id { get; set; }
+    public partial class UserType
+    {
 
-    public string Name { get; set; }
+        public int Id { get; set; }
+
+        public string Name { get; set; }
 
 
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User> Users { get; set; }
 
-    public virtual ICollection<User> Users { get; set; }
-
-}
+    }
 
 }
