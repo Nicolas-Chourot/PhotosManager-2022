@@ -9,10 +9,10 @@ namespace UsersManager.Controllers
 {
     public class ApplicationController : Controller
     {
-        [UserAccess]
+        UsersDBEntities DB = new UsersDBEntities();
         public ActionResult Index()
-        {
-            return View();
+        {       
+            return View(DB.Users);
         }
     }
 }

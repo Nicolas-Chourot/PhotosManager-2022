@@ -1,7 +1,11 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
+﻿@model IEnumerable<UsersManager.Models.User>
+@{ ViewBag.Title = "Index"; }
 
 <h2>Page d'application</h2>
 
+@foreach (var user in Model)
+{
+    <div>
+        @user.GetFullName()
+    </div>
+}
