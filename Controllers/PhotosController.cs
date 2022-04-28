@@ -176,12 +176,16 @@ namespace UsersManager.Controllers
         public ActionResult Edit(int id)
         {
             Photo Photo = DB.Photos.Find(id);
-            if (Photo != null)
+            if (Photo.UserId == OnlineUsers.CurrentUserId)
             {
-                ViewBag.Visibilities = SelectListItemConverter<PhotoVisibility>.Convert(DB.PhotoVisibilities.ToList());
-                return View(Photo);
+                if (Photo != null)
+                {
+                    ViewBag.Visibilities = SelectListItemConverter<PhotoVisibility>.Convert(DB.PhotoVisibilities.ToList());
+                    return View(Photo);
+                }
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Login", "Accounts", new { message = "Access illegal! Violation non propriétaire!" });
         }
         [HttpPost]
         public ActionResult Edit(Photo Photo)
@@ -205,9 +209,14 @@ namespace UsersManager.Controllers
         }
         public ActionResult Delete(int id)
         {
-            DB.Remove_Photo(id);
-            RenewPhotosSerialNumber();
-            return RedirectToAction("Index");
+            Photo Photo = DB.Photos.Find(id);
+            if (Photo.UserId == OnlineUsers.CurrentUserId)
+            {
+                DB.Remove_Photo(id);
+                RenewPhotosSerialNumber();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Login", "Accounts", new { message = "Access illegal! Violation non propriétaire!" });
         }
 
         public ActionResult GetPhotoDetails(int photoId, bool forceRefresh = false)

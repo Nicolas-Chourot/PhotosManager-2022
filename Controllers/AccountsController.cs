@@ -267,6 +267,7 @@ namespace UsersManager.Controllers
         #region Login and Logout
         public ActionResult Login(string message)
         {
+            OnlineUsers.RemoveSessionUser();
             ViewBag.Message = message;
             return View(new LoginCredential());
         }
