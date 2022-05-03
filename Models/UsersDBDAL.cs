@@ -120,9 +120,6 @@ namespace UsersManager.Models
             {
                 BeginTransaction(DB);
                 OnlineUsers.RemoveUser(userToDelete.Id);
-                userToDelete.RemoveAvatar();
-                DB.Users.Remove(userToDelete);
-                DB.SaveChanges();
                 DB.DeleteFriendShips(userId);
                 DB.Logins.RemoveRange(DB.Logins.Where(l => l.UserId == userId));
                 DB.PhotoRatings.RemoveRange(DB.PhotoRatings.Where(pr => pr.UserId == userId));
@@ -132,6 +129,9 @@ namespace UsersManager.Models
                     photo.Remove();
                 }
                 DB.Photos.RemoveRange(DB.Photos.Where(p => p.UserId == userId));
+                userToDelete.RemoveAvatar();
+                DB.Users.Remove(userToDelete);
+                DB.SaveChanges();
                 Commit();
                 return true;
             }
