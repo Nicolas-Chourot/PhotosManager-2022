@@ -74,6 +74,7 @@ namespace UsersManager.Models
             user.Avatar = this.Avatar;
             user.Password = this.Password;
             user.Blocked = this.Blocked;
+            user.Verified = this.Verified;
             return user;
         }
     }
