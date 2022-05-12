@@ -9,12 +9,14 @@ namespace UsersManager
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/bootbox.js"));
+                                    "~/Scripts/jquery-{version}.js",
+                                    "~/Scripts/bootbox.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*",
-                        "~/Scripts/FormUtilities.js"));
+                        "~/Scripts/jquery.validate*"));
+
+            bundles.Add(new ScriptBundle("~/bundles/FormUtilities").Include(
+                          "~/Scripts/FormUtilities.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/imageUploader").Include(
                         "~/Scripts/imageUploader.js"));
