@@ -194,7 +194,7 @@ namespace UsersManager.Controllers
             {
                 DB.Update_Photo(Photo);
                 RenewPhotosSerialNumber();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details/" + Photo.Id);
             }
             ViewBag.Visibilities = SelectListItemConverter<PhotoVisibility>.Convert(DB.PhotoVisibilities.ToList());
             return View(Photo);
@@ -224,7 +224,10 @@ namespace UsersManager.Controllers
             if (forceRefresh || !IsPhotosUpToDate() || OnlineUsers.NeedUpdate())
             {
                 Photo Photo = DB.Photos.Find(photoId);
-                ViewBag.Visility = (DB.AreFriends(OnlineUsers.CurrentUserId, Photo.UserId) ? "Ami" : "Publique");
+                if (Photo.VisibilityId != 3 /* private*/)
+                    ViewBag.Visibility = (DB.AreFriends(OnlineUsers.CurrentUserId, Photo.UserId) ? "Ami" : "Publique");
+                else
+                    ViewBag.Visibility = "Privée";
                 if (Photo == null)
                     return null;
                 SetLocalPhotosSerialNumber();

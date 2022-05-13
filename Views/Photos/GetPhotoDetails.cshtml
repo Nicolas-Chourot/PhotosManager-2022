@@ -18,7 +18,7 @@
     string sortRatingsIconColor = ((string)Session["RatingFieldToSort"] == "ratings" ? "blue" : "gray");
 }
 <div>
-    <div class="PageTitle">@Model.Title <span style="color:gray;font-size:14px">[@ViewBag.Visility]</span></div>
+    <div class="PageTitle">@Model.Title <span style="color:gray;font-size:14px">[@ViewBag.Visibility]</span></div>
     <div style="display:grid; grid-template-columns:30px 30px 30px">
         @Helper.GlyphiconAction("Index", "glyphicon-circle-arrow-left", "Retour à la liste")
         @if (writeAccess)
